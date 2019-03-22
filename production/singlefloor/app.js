@@ -1,14 +1,8 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
-
-const chromiumPath = 'C:\\Users\\asifm\\AppData\\Local\\Chromium\\Application\\chrome.exe';
-
+const exceltojson = require('xlsx-to-json-lc');
 const loginInfo = require('./login')
-
-let rawPropData = fs.readFileSync('./singlefloorsample1.json');
-let propertiesData = JSON.parse(rawPropData);
-
 
 fillData()
   .then(done => console.log('DONE', done))
@@ -17,16 +11,18 @@ fillData()
 function fillData() {
   return new Promise(async (resolve, reject) => {
     try {
+      let propertiesData = await excelToJson();
       // Login Screen
 
       const browser = await puppeteer.launch({
         headless: false,
-        executablePath: chromiumPath,
-        // args: ['--start-fullscreen'],
         args: ['--window-size=1366,768'],
       });
       const page = await browser.newPage();
-      await page.setViewport({ width: 1366, height: 768});
+      await page.setViewport({
+        width: 1366,
+        height: 768
+      });
       await page.goto(loginInfo.siteAddress, {
         timeout: 0,
         waitUntil: 'load',
@@ -74,7 +70,7 @@ function fillData() {
         // Click Add Property Button
         await page.waitForSelector('#serchBtn + button');
         await page.click('#serchBtn + button');
-        
+
         console.log(`${ index } - Currently entring data for SN: ${ index + 1 } Owner: ${ propertiesData[index].ownername }`);
         if (propertiesData[index].ownershiptype != "") {
           await page.waitForSelector('#ownerTypeId');
@@ -242,55 +238,55 @@ function fillData() {
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[0].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[0].bdCsmp"]`, propertiesData[index].consolidatedtax1718)
           }
-  
+
           if (propertiesData[index].treetax1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[1].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[1].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[1].bdCsmp"]`, propertiesData[index].treetax1718)
           }
-  
+
           if (propertiesData[index].educationcess1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[2].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[2].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[2].bdCsmp"]`, propertiesData[index].educationcess1718)
           }
-  
+
           if (propertiesData[index].employementguaranteecesstax1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[3].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[3].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[3].bdCsmp"]`, propertiesData[index].employementguaranteecesstax1718)
           }
-          
+
           if (propertiesData[index].firetax1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[4].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[4].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[4].bdCsmp"]`, propertiesData[index].firetax1718)
           }
-          
+
           if (propertiesData[index].swachatakar1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[5].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[5].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[5].bdCsmp"]`, propertiesData[index].swachatakar1718)
           }
-          
+
           if (propertiesData[index].watertreatmentandhealthcaretax1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[6].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[6].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[6].bdCsmp"]`, propertiesData[index].watertreatmentandhealthcaretax1718)
           }
-          
+
           if (propertiesData[index].electricitytax1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[7].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[7].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[7].bdCsmp"]`, propertiesData[index].electricitytax1718)
           }
-          
+
           if (propertiesData[index].specialeducationtax1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[8].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[8].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[8].bdCsmp"]`, propertiesData[index].specialeducationtax1718)
           }
-          
+
           if (propertiesData[index].interest1718 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[9].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[9].bdCsmp"]`)
@@ -303,55 +299,55 @@ function fillData() {
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[0].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[0].bdCsmp"]`, propertiesData[index].consolidatedtax1819)
           }
-  
+
           if (propertiesData[index].treetax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[1].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[1].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[1].bdCsmp"]`, propertiesData[index].treetax1819)
           }
-  
+
           if (propertiesData[index].educationcess1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[2].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[2].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[2].bdCsmp"]`, propertiesData[index].educationcess1819)
           }
-  
+
           if (propertiesData[index].employementguaranteecesstax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[3].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[3].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[3].bdCsmp"]`, propertiesData[index].employementguaranteecesstax1819)
           }
-          
+
           if (propertiesData[index].firetax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[4].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[4].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[4].bdCsmp"]`, propertiesData[index].firetax1819)
           }
-          
+
           if (propertiesData[index].swachatakar1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[5].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[5].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[5].bdCsmp"]`, propertiesData[index].swachatakar1819)
           }
-          
+
           if (propertiesData[index].watertreatmentandhealthcaretax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[6].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[6].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[6].bdCsmp"]`, propertiesData[index].watertreatmentandhealthcaretax1819)
           }
-          
+
           if (propertiesData[index].electricitytax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[7].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[7].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[7].bdCsmp"]`, propertiesData[index].electricitytax1819)
           }
-          
+
           if (propertiesData[index].specialeducationtax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[8].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[8].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[1].tbWtBillDet[8].bdCsmp"]`, propertiesData[index].specialeducationtax1819)
           }
-          
+
           if (propertiesData[index].interest1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[1].tbWtBillDet[9].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[1].tbWtBillDet[9].bdCsmp"]`)
@@ -363,61 +359,61 @@ function fillData() {
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[0].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[0].bdCsmp"]`, propertiesData[index].consolidatedtax1819)
           }
-  
+
           if (propertiesData[index].treetax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[1].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[1].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[1].bdCsmp"]`, propertiesData[index].treetax1819)
           }
-  
+
           if (propertiesData[index].educationcess1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[2].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[2].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[2].bdCsmp"]`, propertiesData[index].educationcess1819)
           }
-  
+
           if (propertiesData[index].employementguaranteecesstax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[3].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[3].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[3].bdCsmp"]`, propertiesData[index].employementguaranteecesstax1819)
           }
-          
+
           if (propertiesData[index].firetax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[4].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[4].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[4].bdCsmp"]`, propertiesData[index].firetax1819)
           }
-          
+
           if (propertiesData[index].swachatakar1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[5].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[5].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[5].bdCsmp"]`, propertiesData[index].swachatakar1819)
           }
-          
+
           if (propertiesData[index].watertreatmentandhealthcaretax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[6].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[6].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[6].bdCsmp"]`, propertiesData[index].watertreatmentandhealthcaretax1819)
           }
-          
+
           if (propertiesData[index].electricitytax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[7].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[7].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[7].bdCsmp"]`, propertiesData[index].electricitytax1819)
           }
-          
+
           if (propertiesData[index].specialeducationtax1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[8].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[8].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[8].bdCsmp"]`, propertiesData[index].specialeducationtax1819)
           }
-          
+
           if (propertiesData[index].interest1819 !== '0') {
             await page.waitForSelector(`input[id="areear0"][name="billMasList[0].tbWtBillDet[9].bdCsmp"]`)
             await page.focus(`input[id="areear0"][name="billMasList[0].tbWtBillDet[9].bdCsmp"]`)
             await page.type(`input[id="areear0"][name="billMasList[0].tbWtBillDet[9].bdCsmp"]`, propertiesData[index].interest1819)
           }
-        }        
+        }
 
         await page.waitForSelector('#nextView');
         await page.click('#nextView');
@@ -425,8 +421,10 @@ function fillData() {
         await page.waitForSelector('button#submit');
         await page.click('button#submit');
 
-        await page.waitForSelector('input#btnNo');
-        await page.click('input#btnNo');
+        await Promise.all([
+          page.waitForNavigation({ waitUntil: 'load' }),
+          page.click('input#btnNo')
+        ]);
 
         console.log(`${ index } - Data entered for SN: ${ index + 1 } Owner: ${ propertiesData[index].ownername }`);
       }
@@ -435,4 +433,25 @@ function fillData() {
       reject(error);
     }
   });
+}
+
+function excelToJson() {
+  return new Promise((resolve, reject) => {
+    try {
+      exceltojson({
+        input: 'datasample.xlsx',
+        output: 'datasample.json',
+        sheet: "Sheet1"
+      }, function (err, result) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    } catch (error) {
+      reject(error)
+    }
+  })
+
 }

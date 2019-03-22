@@ -8,5 +8,8 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "puppeteer": "^1.13.0",
+    "xlsx-to-json-lc": "^0.5.0"
+  }
 }
